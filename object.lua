@@ -915,3 +915,66 @@ minetest.register_chatcommand("lua_object_get_look_horizontal", {
     end,
 })
 
+-- Native n_get_look_pitch
+minetest.register_chatcommand("native_object_get_look_pitch", {
+    description = "Test Native Get Look Pitch",
+    func = function(name, param)
+        minetest.log("native_object_get_look_pitch is running!")
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local look_pitch = player:native_get_look_pitch()
+        minetest.log("Native Look Pitch: " .. look_pitch)
+    end,
+})
+
+-- Native n_get_look_yaw
+minetest.register_chatcommand("native_object_get_look_yaw", {
+    description = "Test Native Get Look Yaw",
+    func = function(name, param)
+        minetest.log("native_object_get_look_yaw is running!")
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local look_yaw = player:native_get_look_yaw()
+        minetest.log("Native Look Yaw: " .. look_yaw)
+    end,
+})
+
+-- Native n_get_look_vertical
+minetest.register_chatcommand("native_object_get_look_vertical", {
+    description = "Test Native Get Look Vertical",
+    func = function(name, param)
+        minetest.log("native_object_get_look_vertical is running!")
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local look_vertical = player:native_get_look_vertical()
+        minetest.log("Native Look Vertical: " .. look_vertical)
+    end,
+})
+
+-- Native n_get_look_horizontal
+minetest.register_chatcommand("native_object_get_look_horizontal", {
+    description = "Test Native Get Look Horizontal",
+    func = function(name, param)
+        minetest.log("native_object_get_look_horizontal is running!")
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local look_horizontal = player:native_get_look_horizontal()
+        minetest.log("Native Look Horizontal: " .. look_horizontal)
+    end,
+})
