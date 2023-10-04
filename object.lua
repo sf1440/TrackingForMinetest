@@ -817,3 +817,101 @@ minetest.register_chatcommand("native_get_fov", {
     end,
 })
 
+-- l_get_look_dir
+minetest.register_chatcommand("lua_object_get_look_dir", {
+    description = "Test Look Direction",
+    func = function(name, param)
+        minetest.log("lua_object_get_look_dir is running!")
+        local player = minetest.get_player_by_name(name)
+
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local look_dir = player:get_look_dir()
+        minetest.log("Player's look direction (Lua): " .. minetest.pos_to_string(look_dir))
+    end,
+})
+
+-- native_get_look_dir
+minetest.register_chatcommand("native_object_get_look_dir", {
+    description = "Test Look Direction using native implementation",
+    func = function(name, param)
+        minetest.log("native_object_get_look_dir is running!")
+        local player = minetest.get_player_by_name(name)
+
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local look_dir = player:native_get_look_dir()
+        minetest.log("Player's look direction (Native): " .. minetest.pos_to_string(look_dir))
+    end,
+})
+
+-- DEPRECATED: l_get_look_pitch
+minetest.register_chatcommand("lua_object_get_look_pitch", {
+    description = "Test Deprecated Get Look Pitch",
+    func = function(name, param)
+        minetest.log("lua_object_get_look_pitch is running!")
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local look_pitch = player:get_look_pitch()
+        minetest.log("Deprecated Look Pitch: " .. look_pitch)
+    end,
+})
+
+-- DEPRECATED: l_get_look_yaw
+minetest.register_chatcommand("lua_object_get_look_yaw", {
+    description = "Test Deprecated Get Look Yaw",
+    func = function(name, param)
+        minetest.log("lua_object_get_look_yaw is running!")
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local look_yaw = player:get_look_yaw()
+        minetest.log("Deprecated Look Yaw: " .. look_yaw)
+    end,
+})
+
+-- l_get_look_vertical
+minetest.register_chatcommand("lua_object_get_look_vertical", {
+    description = "Test Get Look Vertical",
+    func = function(name, param)
+        minetest.log("lua_object_get_look_vertical is running!")
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local look_vertical = player:get_look_vertical()
+        minetest.log("Look Vertical: " .. look_vertical)
+    end,
+})
+
+-- l_get_look_horizontal
+minetest.register_chatcommand("lua_object_get_look_horizontal", {
+    description = "Test Get Look Horizontal",
+    func = function(name, param)
+        minetest.log("lua_object_get_look_horizontal is running!")
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local look_horizontal = player:get_look_horizontal()
+        minetest.log("Look Horizontal: " .. look_horizontal)
+    end,
+})
+
