@@ -1,4 +1,7 @@
 -- Written By Songyuhao Shi
+
+
+
 minetest.log("object_test_obj")
 
 minetest.register_chatcommand("lua_object", {
@@ -978,3 +981,168 @@ minetest.register_chatcommand("native_object_get_look_horizontal", {
         minetest.log("Native Look Horizontal: " .. look_horizontal)
     end,
 })
+
+
+-- Lua l_set_look_vertical
+minetest.register_chatcommand("lua_object_set_look_vertical", {
+    description = "Test Lua Set Look Vertical - /lua_object_set_look_vertical (radians)",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local radians = tonumber(param)
+        if not radians then
+            minetest.log("Invalid radian value")
+            return
+        end
+
+        player:set_look_vertical(radians)
+    end,
+})
+
+-- Lua l_set_look_horizontal
+minetest.register_chatcommand("lua_object_set_look_horizontal", {
+    description = "Test Lua Set Look Horizontal - /lua_object_set_look_horizontal (radians)",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local radians = tonumber(param)
+        if not radians then
+            minetest.log("Invalid radian value")
+            return
+        end
+
+        player:set_look_horizontal(radians)
+    end,
+})
+
+-- DEPRECATED: Lua l_set_look_pitch
+minetest.register_chatcommand("lua_object_set_look_pitch", {
+    description = "Test (Deprecated) Lua Set Look Pitch - /lua_object_set_look_pitch (radians)",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local radians = tonumber(param)
+        if not radians then
+            minetest.log("Invalid radian value")
+            return
+        end
+
+        player:set_look_pitch(radians)
+    end,
+})
+
+-- DEPRECATED: Lua l_set_look_yaw
+minetest.register_chatcommand("lua_object_set_look_yaw", {
+    description = "Test (Deprecated) Lua Set Look Yaw - /lua_object_set_look_yaw (radians)",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local radians = tonumber(param)
+        if not radians then
+            minetest.log("Invalid radian value")
+            return
+        end
+
+        player:set_look_yaw(radians)
+    end,
+})
+
+
+-- Native n_set_look_vertical
+minetest.register_chatcommand("native_object_set_look_vertical", {
+    description = "Test Set Look Vertical - /native_object_set_look_vertical (radians)",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local radians = tonumber(param)
+        if not radians then
+            minetest.log("Invalid radian value")
+            return
+        end
+
+        player:native_set_look_vertical(radians)
+    end,
+})
+
+-- Native n_set_look_horizontal
+minetest.register_chatcommand("native_object_set_look_horizontal", {
+    description = "Test Set Look Horizontal - /native_object_set_look_horizontal (radians)",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local radians = tonumber(param)
+        if not radians then
+            minetest.log("Invalid radian value")
+            return
+        end
+
+        player:native_set_look_horizontal(radians)
+    end,
+})
+
+-- DEPRECATED: n_set_look_pitch
+minetest.register_chatcommand("native_object_set_look_pitch", {
+    description = "Test (Deprecated) Set Look Pitch - /native_object_set_look_pitch (radians)",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local radians = tonumber(param)
+        if not radians then
+            minetest.log("Invalid radian value")
+            return
+        end
+
+        player:native_set_look_pitch(radians)
+    end,
+})
+
+-- DEPRECATED: n_set_look_yaw
+minetest.register_chatcommand("native_object_set_look_yaw", {
+    description = "Test (Deprecated) Set Look Yaw - /native_object_set_look_yaw (radians)",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local radians = tonumber(param)
+        if not radians then
+            minetest.log("Invalid radian value")
+            return
+        end
+
+        player:native_set_look_yaw(radians)
+    end,
+})
+
+
+

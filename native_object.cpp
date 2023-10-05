@@ -221,5 +221,40 @@ minetest.register_chatcommand("native_object_get_look_horizontal", {
     end,
 })
 
+namespace nativeObjectRef {
+
+void n_set_look_vertical(ServerActiveObject *sao, float radians) {
+    PlayerSAO *playersao = dynamic_cast<PlayerSAO *>(sao);
+    if (playersao) {
+	playersao->setLookPitchAndSend(radians * core::RADTODEG);
+    }
+}
+
+void n_set_look_horizontal(ServerActiveObject *sao, float radians) {
+    PlayerSAO *playersao = dynamic_cast<PlayerSAO *>(sao);
+    if (playersao) {
+	playersao->setPlayerYawAndSend(radians * core::RADTODEG);
+    }
+}
+
+// DEPRECATED
+void n_set_look_pitch(ServerActiveObject *sao, float radians) {
+    PlayerSAO *playersao = dynamic_cast<PlayerSAO *>(sao);
+    if (playersao) {
+	playersao->setLookPitchAndSend(radians * core::RADTODEG);
+    }
+}
+
+// DEPRECATED
+void n_set_look_yaw(ServerActiveObject *sao, float radians) {
+    PlayerSAO *playersao = dynamic_cast<PlayerSAO *>(sao);
+    if (playersao) {
+	playersao->setPlayerYawAndSend(radians * core::RADTODEG);
+    }
+}
+
+} // end namespace nativeObjectRef
+
+
 
   */
