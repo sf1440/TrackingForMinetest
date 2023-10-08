@@ -1,5 +1,6 @@
 /*
-
+#include "native_object.h"
+#include "player.h"
 
 namespace nativeObjectRef
 {
@@ -253,7 +254,109 @@ void n_set_look_yaw(ServerActiveObject *sao, float radians) {
     }
 }
 
-} // end namespace nativeObjectRef
+
+namespace nativeObjectRef {
+
+    // Conversion: Lua table -> SkyboxParams
+    SkyboxParams table_to_skybox_params(lua_State *L, int index) {
+	SkyboxParams params;
+	// Assume table is at the top of the stack.
+
+	// Extract bgcolor from the table
+	lua_getfield(L, index, "bgcolor");
+	params.bgcolor = read_ARGB8(L, -1); // Convert Lua color to C++ color.
+	lua_pop(L, 1);
+
+	// Similar conversions for other members of SkyboxParams...
+	// ...
+
+	return params;
+    }
+
+    // Conversion: SkyColor -> Lua table
+    void push_sky_color_to_lua(lua_State *L, const SkyColor& color) {
+	lua_newtable(L);
+	// Assuming SkyColor has members like day_sky, day_horizon, etc.
+	push_ARGB8(L, color.day_sky);
+	lua_setfield(L, -2, "day_sky");
+	// ... similar pushes for other members ...
+    }
+
+    void n_set_sky(ServerActiveObject* sao, lua_State *L, int index) {
+	RemotePlayer* player = dynamic_cast<RemotePlayer*>(sao);
+	if (!player) {
+	    lua_pushstring(L, "Invalid player object.");
+	    lua_error(L);
+	    return;
+	}
+
+	SkyboxParams params = table_to_skybox_params(L, index);
+	player->setSky(params);
+    }
+
+    void n_get_sky(ServerActiveObject* sao, lua_State *L) {
+	RemotePlayer* player = dynamic_cast<RemotePlayer*>(sao);
+	if (!player) {
+	    lua_pushstring(L, "Invalid player object.");
+	    lua_error(L);
+	    return;
+	}
+
+	SkyboxParams params = player->getSkyParams();
+	// Convert params to Lua table and push to Lua stack.
+	// This function assumes you have the conversion functions ready.
+	skybox_params_to_table(L, params);
+    }
+
+    void n_get_sky_color(ServerActiveObject* sao, lua_State *L) {
+	RemotePlayer* player = dynamic_cast<RemotePlayer*>(sao);
+	if (!player) {
+	    lua_pushstring(L, "Invalid player object.");
+	    lua_error(L);
+	    return;
+	}
+
+	SkyColor color = player->getSkyParams().sky_color;
+	// Convert color to Lua table and push to Lua stack.
+	push_sky_color_to_lua(L, color);
+    }
+}
+
+namespace nativeObjectRef {
+
+// Native version of set_sun
+void n_set_sun(RemotePlayer *player, const SunParams &params) {
+    if (player) {
+	player->getServer()->setSun(player, params);
+    }
+}
+
+// Native version of get_sun
+SunParams n_get_sun(RemotePlayer *player) {
+    if (player) {
+	return player->getSunParams();
+    }
+    // Return default or null SunParams if player is nullptr. Adjust as necessary.
+    return SunParams();
+}
+
+// Native version of set_moon
+void n_set_moon(RemotePlayer *player, const MoonParams &params) {
+    if (player) {
+	player->getServer()->setMoon(player, params);
+    }
+}
+
+// Native version of get_moon
+MoonParams n_get_moon(RemotePlayer *player) {
+    if (player) {
+	return player->getMoonParams();
+    }
+    // Return default or null MoonParams if player is nullptr. Adjust as necessary.
+    return MoonParams();
+}
+
+
 
 
 
