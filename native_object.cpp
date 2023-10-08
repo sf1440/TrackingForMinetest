@@ -356,6 +356,46 @@ MoonParams n_get_moon(RemotePlayer *player) {
     return MoonParams();
 }
 
+namespace nativeObjectRef
+{
+    // For set_stars, considering it has a struct StarParams for its parameter
+    void n_set_stars(ServerActiveObject *sao, const StarParams &params)
+    {
+	PlayerSAO *playersao = dynamic_cast<PlayerSAO *>(sao);
+	if (playersao) {
+	    playersao->setStarParams(params);
+	}
+    }
+
+    // For get_stars, assuming it returns StarParams
+    StarParams n_get_stars(ServerActiveObject *sao)
+    {
+	PlayerSAO *playersao = dynamic_cast<PlayerSAO *>(sao);
+	if (playersao) {
+	    return playersao->getStarParams();
+	}
+	return StarParams(); // Returning default StarParams
+    }
+
+    // For set_clouds, considering it has a struct CloudParams for its parameter
+    void n_set_clouds(ServerActiveObject *sao, const CloudParams &params)
+    {
+	PlayerSAO *playersao = dynamic_cast<PlayerSAO *>(sao);
+	if (playersao) {
+	    playersao->setCloudParams(params);
+	}
+    }
+
+    // For get_clouds, assuming it returns CloudParams
+    CloudParams n_get_clouds(ServerActiveObject *sao)
+    {
+	PlayerSAO *playersao = dynamic_cast<PlayerSAO *>(sao);
+	if (playersao) {
+	    return playersao->getCloudParams();
+	}
+	return CloudParams(); // Returning default CloudParams
+    }
+}
 
 
 

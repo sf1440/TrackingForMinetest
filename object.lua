@@ -1412,3 +1412,146 @@ minetest.register_chatcommand("native_object_get_moon", {
 })
 
 
+
+
+-- Lua Testing for set_stars
+minetest.register_chatcommand("lua_object_set_stars", {
+    description = "Test Set Stars",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        player:set_stars({
+            visible = true,
+            count = 500,
+            star_color = {a=255, r=255, g=255, b=255},
+            scale = 1.0
+        })
+        minetest.log("Stars set for player: " .. name)
+    end,
+})
+
+-- Lua Testing for get_stars
+minetest.register_chatcommand("lua_object_get_stars", {
+    description = "Test Get Stars",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        local stars = player:get_stars()
+        minetest.log(dump(stars))
+    end,
+})
+
+-- Lua Testing for set_clouds
+minetest.register_chatcommand("lua_object_set_clouds", {
+    description = "Test Set Clouds",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        player:set_clouds({
+            density = 0.6,
+            color = {a=255, r=255, g=255, b=255},
+            ambient = {a=255, r=128, g=128, b=128},
+            height = 120,
+            thickness = 16,
+            speed = {x=0, y=2}
+        })
+        minetest.log("Clouds set for player: " .. name)
+    end,
+})
+
+-- Lua Testing for get_clouds
+minetest.register_chatcommand("lua_object_get_clouds", {
+    description = "Test Get Clouds",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        local clouds = player:get_clouds()
+        minetest.log(dump(clouds))
+    end,
+})
+
+
+-- Native Testing for set_stars
+minetest.register_chatcommand("native_object_set_stars", {
+    description = "Native Test Set Stars",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        player:native_set_stars({
+            visible = true,
+            count = 500,
+            star_color = {a=255, r=255, g=255, b=255},
+            scale = 1.0
+        })
+        minetest.log("Stars (native) set for player: " .. name)
+    end,
+})
+
+-- Native Testing for get_stars
+minetest.register_chatcommand("native_object_get_stars", {
+    description = "Native Test Get Stars",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        local stars = player:native_get_stars()
+        minetest.log(dump(stars))
+    end,
+})
+
+-- Native Testing for set_clouds
+minetest.register_chatcommand("native_object_set_clouds", {
+    description = "Native Test Set Clouds",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        player:native_set_clouds({
+            density = 0.6,
+            color = {a=255, r=255, g=255, b=255},
+            ambient = {a=255, r=128, g=128, b=128},
+            height = 120,
+            thickness = 16,
+            speed = {x=0, y=2}
+        })
+        minetest.log("Clouds (native) set for player: " .. name)
+    end,
+})
+
+-- Native Testing for get_clouds
+minetest.register_chatcommand("native_object_get_clouds", {
+    description = "Native Test Get Clouds",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        local clouds = player:native_get_clouds()
+        minetest.log(dump(clouds))
+    end,
+})
+
+
+
+
+
