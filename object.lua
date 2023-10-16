@@ -1,7 +1,4 @@
--- Written By Songyuhao Shi
-
-
-
+-- Written By Sean Ferguson & Songyuhai Shi
 minetest.log("object_test_obj")
 
 minetest.register_chatcommand("lua_object", {
@@ -17,12 +14,26 @@ minetest.register_chatcommand("lua_object", {
             minetest.log("lua_object_move_to #\n")
             minetest.log("lua_object_punch - Not Working\n")
             minetest.log("lua_object_right_click\n")
-            minetest.log("lua_object_set_hp - Not Working\n")
+            minetest.log("lua_object_set_hp\n")
             minetest.log("lua_object_get_hp\n")
             minetest.log("lua_object_get_inventory\n")
-            minetest.log("lua_object_get_weild_list\n")
+            minetest.log("lua_object_get_wield_list\n")
         end
         if param == "2" then
+            minetest.log("lua_object_get_wield_index\n")
+            minetest.log("lua_object_get_wielded_item\n")
+            minetest.log("lua_object_set_wielded_item\n")
+            minetest.log("lua_object_set_armor_groups - Not Working\n")
+            minetest.log("lua_object_get_armor_groups\n")
+            minetest.log("lua_object_set_animation - Not Working\n")
+            minetest.log("lua_object_get_animation\n")
+            minetest.log("lua_object_set_local_animation - Not Working\n")
+            minetest.log("lua_object_get_local_animation\n")
+            minetest.log("lua_object_get_eye_offset\n")
+        end
+        if param == "3" then
+            minetest.log("lua_object_set_eye_offset #")
+            minetest.log("lua_object_send_mapblock")
             minetest.log("")
             minetest.log("")
             minetest.log("")
@@ -31,8 +42,43 @@ minetest.register_chatcommand("lua_object", {
             minetest.log("")
             minetest.log("")
             minetest.log("")
-            minetest.log("")
-            minetest.log("")
+        end
+        --Chris Functions
+        if param == "4" then
+            minetest.log("lua_object_get_breath")
+            minetest.log("lua_object_set_breath #")
+            minetest.log("lua_object_get_meta")
+            minetest.log("lua_object_get_attribute")
+            minetest.log("lua_object_set_attribute #") --Check with Chris
+            minetest.log("lua_object_get_fov")
+            minetest.log("lua_object_set_fov #")
+            minetest.log("lua_object_get_look_dir")
+            minetest.log("lua_object_get_look_pitch")
+            minetest.log("lua_object_get_look_yaw")
+        end
+        if param == "5" then
+            minetest.log("lua_object_get_look_horizontal")
+            minetest.log("lua_object_get_look_vertical")
+            minetest.log("lua_object_set_look_pitch #")
+            minetest.log("lua_object_set_look_yaw #")
+            minetest.log("lua_object_set_look_horizontal #")
+            minetest.log("lua_object_set_look_vertical #")
+            minetest.log("lua_object_set_sky")
+            minetest.log("lua_object_get_sky")
+            minetest.log("lua_object_get_sky_color")
+            minetest.log("lua_object_get_sun")
+        end
+        if param == "6" then
+            minetest.log("lua_object_get_moon")
+            minetest.log("lua_object_set_sun #")
+            minetest.log("lua_object_set_moon #")
+            minetest.log("lua_object")
+            minetest.log("lua_object")
+            minetest.log("lua_object")
+            minetest.log("lua_object")
+            minetest.log("lua_object")
+            minetest.log("lua_object")
+            minetest.log("lua_object")
         end
     end,
 })
@@ -70,11 +116,12 @@ minetest.register_chatcommand("lua_object_remove", {
     end,
 })
 
--- native_remove
+
+-- l_remove
 minetest.register_chatcommand("native_object_remove", {
     description = "Test Object Remove",
     func = function(name, param)
-        minetest.log("native_object_remove is running!")
+        minetest.log("lua_object_remove is running!")
         local player = minetest.get_player_by_name(name)
         
         if not player then
@@ -196,10 +243,10 @@ minetest.register_chatcommand("lua_object_set_pos", {
             end
         end
     end,
-})
+})  
 
 -- native_set_pos
-minetest.register_chatcommand(" native_object_set_pos", {
+minetest.register_chatcommand("native_object_set_pos", {
     description = "Test Object Set Pos - /native_object_set_pos (Z_Value)",
     func = function(name, param)
         minetest.log("native_object_set_pos is running!")
@@ -226,7 +273,7 @@ minetest.register_chatcommand(" native_object_set_pos", {
             -- Check if the object is a player
             if object:is_player() then
                 local v3f = {x = 100, y = 22, z = tonumber(param)}
-                local player_pos = object:native_set_pos(v3f)
+                local player_pos = object:set_pos(v3f)
                 minetest.log("Player " .. object:get_player_name() .. " is at position: " .. minetest.pos_to_string(v3f))
             end
         end
@@ -293,7 +340,7 @@ minetest.register_chatcommand("native_object_move_to", {
         for i, object in ipairs(saos) do
             -- Check if the object is a player
             local v3f = {x = 100, y = 22, z = tonumber(param)}
-            local player_pos = object:native_move_to(v3f, false)
+            local player_pos = object:move_to(v3f, false)
             minetest.log(#saos .. " objects moved to position: " .. minetest.pos_to_string(v3f))
         end
     end,
@@ -329,45 +376,8 @@ minetest.register_chatcommand("lua_object_punch", {
                 for i, floorobj in ipairs(saos) do
                     if not floorobj:isplayer() then
                         -- Wear all objects on floor
-                        object:punch(floorobj)
-                    end
-                end
-            end
-        end
-    end,
-})
-
--- native_punch
-minetest.register_chatcommand("native_object_punch", {
-    description = "Test Object Move To",
-    func = function(name, param)
-        minetest.log("native_object_set_pos is running!")
-        local player = minetest.get_player_by_name(name)
-        
-        if not player then
-            minetest.log("Player not found")
-            return
-        end
-
-        local pos = player:get_pos()
-        local saos = minetest.get_objects_inside_radius(pos, 2)
-        
-        -- Check if saos is empty
-        if #saos == 0 then
-            minetest.log("No Active Objects near Player")
-            return
-        end
-        
-        -- Output the size of saos to minetest.log
-        minetest.log("Size of Active Objects Array: " .. #saos)
-
-        for i, object in ipairs(saos) do
-            -- Check if the object is a player
-            if object:is_player() then
-                for i, floorobj in ipairs(saos) do
-                    if not floorobj:isplayer() then
-                        -- Wear all objects on floor
-                        object:native_punch(floorobj)
+                        -- punch(self, puncher, time_from_last_punch, tool_capabilities, dir)
+                        -- object:punch(floorobj, 5, )
                     end
                 end
             end
@@ -411,6 +421,35 @@ minetest.register_chatcommand("lua_object_right_click", {
 })
 
 --set_hp
+minetest.register_chatcommand("lua_object_set_hp", {
+    description = "Set the player's current HP - 0-20",
+    func = function(name, param)
+        minetest.log("lua_object_et_hp is running!")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local pos = player:get_pos()
+        local saos = minetest.get_objects_inside_radius(pos, 2)
+        
+        -- Check if saos is empty
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        -- Output the size of saos to minetest.log
+        minetest.log("Size of Active Objects Array: " .. #saos)
+        for i, object in ipairs(saos) do
+            local a = object:set_hp(tonumber(param), "set_hp")
+            minetest.log("The object's HP was set to " ..param)
+            minetest.log("The object's HP is currently " ..dump(a))
+        end
+    end,
+})
 
 --get_hp
 -- get_hp(self)
@@ -474,8 +513,8 @@ minetest.register_chatcommand("lua_object_get_inventory", {
 })
 
 -- get_weild_list(self)
-minetest.register_chatcommand("lua_object_get_weild_list", {
-    description = "Get the player's current HP",
+minetest.register_chatcommand("lua_object_get_wield_list", {
+    description = "Get the player's current wield list",
     func = function(name, param)
         minetest.log("lua_object_get_weild_list is running!")
         local player = minetest.get_player_by_name(name)
@@ -503,6 +542,341 @@ minetest.register_chatcommand("lua_object_get_weild_list", {
     end,
 })
 
+-- get_weild_index(self)
+minetest.register_chatcommand("lua_object_get_wield_index", {
+    description = "Get the player's current wield index",
+    func = function(name, param)
+        minetest.log("lua_object_get_weild_index is running!")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local pos = player:get_pos()
+        local saos = minetest.get_objects_inside_radius(pos, 2)
+        
+        -- Check if saos is empty
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        -- Output the size of saos to minetest.log
+        minetest.log("Size of Active Objects Array: " .. #saos)
+
+        local plyr = saos[1]
+        local a = plyr:get_wield_index()
+        minetest.log("The player's wield list is " ..dump(a))
+    end,
+})
+
+-- get_weilded_item(self)
+minetest.register_chatcommand("lua_object_get_wielded_item", {
+    description = "Get the player's current wielded item",
+    func = function(name, param)
+        minetest.log("lua_object_get_weilded_item is running!")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local pos = player:get_pos()
+        local saos = minetest.get_objects_inside_radius(pos, 2)
+        
+        -- Check if saos is empty
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        -- Output the size of saos to minetest.log
+        minetest.log("Size of Active Objects Array: " .. #saos)
+
+        local plyr = saos[1]
+        local a = plyr:get_wielded_item()
+        minetest.log("The player's wielded item is " ..dump(a))
+        minetest.log("The player's wielded item is " ..dump(a:to_string()))
+    end,
+})
+
+-- Look into
+-- set_weilded_item(self)
+minetest.register_chatcommand("lua_object_set_wielded_item", {
+    description = "Set the player's current wielded item",
+    func = function(name, param)
+        minetest.log("lua_object_set_weilded_item is running!")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local pos = player:get_pos()
+        local saos = minetest.get_objects_inside_radius(pos, 2)
+        
+        -- Check if saos is empty
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        -- Output the size of saos to minetest.log
+        minetest.log("Size of Active Objects Array: " .. #saos)
+
+        local plyr = saos[1]
+        if tonumber(param) == 0 then
+            local wieldeditem = nil
+            local a = plyr:set_wielded_item(wieldeditem)
+            minetest.log("The player's wielded item is " ..dump(a))
+        elseif tonumber(param) == 1 then
+            local wieldeditem = "basetools:sword_stone"
+            local a = plyr:set_wielded_item(wieldeditem)
+            minetest.log("The player's wielded item is " ..dump(a))
+        else
+            minetest.log("input a param: \n 0 - null \n 1 - stone sword")
+        end
+    end,
+})
+
+--Skip set armor (fleshy, crumbly, cracky)
+
+-- get_armor_groups(self)
+minetest.register_chatcommand("lua_object_get_armor_groups", {
+    description = "Get the player's current armor groups",
+    func = function(name, param)
+        minetest.log("lua_object_get_weilded_item is running!")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local pos = player:get_pos()
+        local saos = minetest.get_objects_inside_radius(pos, 2)
+        
+        -- Check if saos is empty
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        -- Output the size of saos to minetest.log
+        minetest.log("Size of Active Objects Array: " .. #saos)
+
+        local plyr = saos[1]
+        local a = plyr:get_armor_groups()
+        local b = player:get_armor_groups()
+        -- minetest.log("The player's armor group information is " ..dump(a:to_string()))
+        minetest.log("The player's armor group information is " ..dump(a))
+        minetest.log("The player's armor group information is " ..dump(b))
+    end,
+})
+
+-- set_animation(self, frame_range, frame_speed, frame_blend, frame_loop)
+-- get_animation(self)
+minetest.register_chatcommand("lua_object_get_animation", {
+    description = "Get the object's animation",
+    func = function(name, param)
+        minetest.log("lua_object_get_animation is running!")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local pos = player:get_pos()
+        local saos = minetest.get_objects_inside_radius(pos, 2)
+        
+        -- Check if saos is empty
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        -- Output the size of saos to minetest.log
+        minetest.log("Size of Active Objects Array: " .. #saos)
+
+        if #saos == 2 then
+            -- local plyr = saos[1]
+            local rclk = saos[2]
+            local a = rclk:get_animation()
+            minetest.log("The Current animation information for ".. rclk:get_entity_name().." is "..dump(a))
+        else
+            local plyr = saos[1]
+            local a = plyr:get_animation()
+            minetest.log("The Current animation information for ".. plyr:get_player_name() .." is "..dump(a))
+        end
+    end,
+})
+-- set_local_animation(self, idle, walk, dig, walk_while_dog, frame_speed)
+-- get_local_animation(self)
+minetest.register_chatcommand("lua_object_get_local_animation", {
+    description = "Get the player's animation",
+    func = function(name, param)
+        minetest.log("lua_object_get_local_animation_item is running!")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local pos = player:get_pos()
+        local saos = minetest.get_objects_inside_radius(pos, 2)
+        
+        -- Check if saos is empty
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        -- Output the size of saos to minetest.log
+        minetest.log("Size of Active Objects Array: " .. #saos)
+
+
+        local plyr = saos[1]
+        local a = plyr:get_local_animation()
+        minetest.log("The Current animation information for ".. plyr:get_player_name() .." is "..dump(a))
+    end,
+})
+
+-- get_eye_offset(self)
+minetest.register_chatcommand("lua_object_get_eye_offset", {
+    description = "Get the player's current eye offset",
+    func = function(name, param)
+        minetest.log("lua_object_get_eye_offset is running!")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local pos = player:get_pos()
+        local saos = minetest.get_objects_inside_radius(pos, 2)
+        
+        -- Check if saos is empty
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        -- Output the size of saos to minetest.log
+        minetest.log("Size of Active Objects Array: " .. #saos)
+
+        local plyr = saos[1]
+        local a = plyr:get_eye_offset()
+        --local b = player:get_armor_groups()
+        -- minetest.log("The player's armor group information is " ..dump(a:to_string()))
+        minetest.log("The player's eye offset is " ..dump(a))
+
+    end,
+})
+
+-- set_eye_offset(self)
+minetest.register_chatcommand("lua_object_set_eye_offset", {
+    description = "Set the player's current eye offset",
+    func = function(name, param)
+        minetest.log("lua_object_get_eye_offset is running!")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local pos = player:get_pos()
+        local saos = minetest.get_objects_inside_radius(pos, 2)
+        
+        -- Check if saos is empty
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        -- Output the size of saos to minetest.log
+        minetest.log("Size of Active Objects Array: " .. #saos)
+
+        local plyr = saos[1]
+        if param ~= "" then
+            local v3f = {x = 0, y = tonumber(param), z = 0}
+            local a = plyr:set_eye_offset(v3f)
+            minetest.log("The player's eye offset is now" ..dump(v3f))
+        else
+            local v3f = {x = 0, y = 0, z = 0}
+            local a = plyr:set_eye_offset(v3f)
+            minetest.log("lua_object_set_eye_offset # (0 is default)")
+        end
+    end,
+})
+
+-- send_mapblock(self, pos)
+-- Figure out how to trigger it
+minetest.register_chatcommand("lua_object_send_mapblock", {
+    description = "Sends an already loaded mapblock to the player.\nReturns false if nothing was sent (note that this can also mean that the client already has the block)\nResource intensive - use sparsely",
+    func = function(name, param)
+        minetest.log("Sends an already loaded mapblock to the player.\nReturns false if nothing was sent (note that this can also mean that the client already has the block)\nResource intensive - use sparsely")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local pos = player:get_pos()
+        local saos = minetest.get_objects_inside_radius(pos, 2)
+        
+        -- Check if saos is empty
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        -- Output the size of saos to minetest.log
+        minetest.log("Size of Active Objects Array: " .. #saos)
+
+        local plyr = saos[1]
+        local a = plyr:send_mapblock(pos)
+        --local b = player:get_armor_groups()
+        -- minetest.log("The player's armor group information is " ..dump(a:to_string()))
+        if a then
+            minetest.log("Mapblock was sent to player. Responce:  " ..dump(a))
+        else 
+            minetest.log("Mapblock was NOT sent to player. Responce:  " ..dump(a))
+        end
+    end,
+})
+
+--set_animation_frame_speed(self, frame_speed)
+
+--set_bone_position(self, bone, position, rotation)
+
+--get_bone_position(self, bone)
+
+--set_attach(self, parent, bone, position, rotation, force_visable)
+
+--get_attach(self)
+
+--get_children(self)
+
+--set_detach(self)
+
+--set_properties(self, properties)
+
+--get_properties(self)
+
+--is_player(self) Used in most functions
+
+--set_nametag_attributes
+
+-- Chris Functions
 -- l_set_breath
 minetest.register_chatcommand("lua_object_set_breath", {
     description = "Test Set Breath - /lua_object_set_breath (breath_value)",
@@ -1143,6 +1517,7 @@ minetest.register_chatcommand("native_object_set_look_yaw", {
         player:native_set_look_yaw(radians)
     end,
 })
+
 -- Lua Testing for set_sky
 minetest.register_chatcommand("lua_object_set_sky", {
     description = "Set Sky Parameters",
@@ -1551,7 +1926,233 @@ minetest.register_chatcommand("native_object_get_clouds", {
     end,
 })
 
+-- Function to run all lua_object commands and log the results
+-- Automated Testing
+local function run_lua_object_commands_and_log()
+    local log_file = io.open(minetest.get_worldpath() .. "/lua_object_results.txt", "w")  -- Open a text file for writing
+
+    if not log_file then
+        minetest.log("Failed to open log file for writing.")
+        return
+    end
+
+    local total_commands = 0  
+    local passed_commands = 0 
+
+    for command, command_info in pairs(minetest.registered_chatcommands) do
+        if string.match(command, "^lua_object_") then
+            minetest.log("Running lua_object command: " .. command)
+            --function(name, param)
+            local success, result = pcall(command_info.func, "singleplayer", "20")
+            
+            log_file:write("Command: " .. command .. "\n")
+            log_file:write("Result: " .. (success and "Success" or "Error") .. "\n")
+            if (success) then
+                log_file:write("\n")
+                passed_commands = passed_commands + 1
+            else
+                log_file:write("Output:\n" .. (result or "No output") .. "\n\n")
+            end
+
+            total_commands = total_commands + 1
+
+        end
+    end
+
+    log_file:write(passed_commands .. "/" .. total_commands .. " Tests Passed\n")
+    log_file:close()
+    minetest.log("All lua_object commands logged to lua_object_results.txt")
+end
+
+
+-- Register a chat command to run and log lua_object commands
+minetest.register_chatcommand("log_lua_object", {
+    description = "Run and log lua_object commands",
+    func = run_lua_object_commands_and_log,
+})
 
 
 
+-- Test l_get_entity_name Function
+minetest.register_chatcommand("lua_object_get_entity_name", {
+    description = "Test Get Entity Name",
+    func = function(name, param)
+        minetest.log("Testing l_get_entity_name...")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local saos = minetest.get_objects_inside_radius(player:get_pos(), 8)
+        
+        for i, object in ipairs(saos) do
+            if not object:is_player() then
+                local entityName = object:get_entity_name()
+                minetest.log("Entity Name: " .. entityName)
+            end
+        end
+    end,
+})
+
+-- Test l_get_player_name Function
+minetest.register_chatcommand("lua_object_get_player_name", {
+    description = "Test Get Player Name",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if player then
+            minetest.log("Player Name: " .. player:get_player_name())
+        else
+            minetest.log("Player not found")
+        end
+    end,
+})
+
+-- Test l_get_luaentity Function
+minetest.register_chatcommand("lua_object_get_luaentity", {
+    description = "Test LuaEntity",
+    func = function(name, param)
+        minetest.log("Testing l_get_luaentity...")
+        local player = minetest.get_player_by_name(name)
+        
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local saos = minetest.get_objects_inside_radius(player:get_pos(), 8)
+        
+        for i, object in ipairs(saos) do
+            if not object:is_player() then
+                local luaEntity = object:get_luaentity()
+                minetest.log("LuaEntity ID: " .. (luaEntity and luaEntity:get_id() or "nil"))
+            end
+        end
+    end,
+})
+
+
+-- Native Testing for get_entity_name
+minetest.register_chatcommand("native_object_get_entity_name", {
+    description = "Native Test Get Entity Name",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local saos = minetest.get_objects_inside_radius(player:get_pos(), 8)
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+        
+        for _, object in ipairs(saos) do
+            if not object:is_player() then
+                minetest.log("Entity Name (native): " .. object:native_get_entity_name())
+            end
+        end
+    end,
+})
+
+-- Native Testing for get_luaentity
+minetest.register_chatcommand("native_object_get_luaentity", {
+    description = "Native Test Get LuaEntity",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        local saos = minetest.get_objects_inside_radius(player:get_pos(), 8)
+        if #saos == 0 then
+            minetest.log("No Active Objects near Player")
+            return
+        end
+
+        for _, object in ipairs(saos) do
+            if not object:is_player() then
+                local entity = object:native_get_luaentity()
+                if entity then
+                    minetest.log("Lua Entity ID (native): " .. entity:getId())
+                end
+            end
+        end
+    end,
+})
+
+-- Native Testing for get_player_name
+minetest.register_chatcommand("native_object_get_player_name", {
+    description = "Native Test Get Player Name",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if player then
+            minetest.log("Player Name (native): " .. player:native_get_player_name())
+        else
+            minetest.log("Player not found")
+        end
+    end,
+})
+
+
+-- Lua Testing for override_day_night_ratio
+minetest.register_chatcommand("lua_object_override_day_night_ratio", {
+    description = "Lua Test Override Day Night Ratio",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        local ratio = tonumber(param) or 0.5
+        player:override_day_night_ratio(ratio)
+        minetest.log("Day Night Ratio (Lua) set to: " .. ratio .. " for player: " .. name)
+    end,
+})
+
+-- Lua Testing for get_day_night_ratio
+minetest.register_chatcommand("lua_object_get_day_night_ratio", {
+    description = "Lua Test Get Day Night Ratio",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        local ratio = player:get_day_night_ratio()
+        minetest.log("Day Night Ratio (Lua) for player " .. name .. " is: " .. (ratio or "Not set"))
+    end,
+})
+
+-- Native Testing for override_day_night_ratio
+minetest.register_chatcommand("native_object_override_day_night_ratio", {
+    description = "Native Test Override Day Night Ratio",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        local ratio = tonumber(param) or 0.5
+        player:native_override_day_night_ratio(ratio)
+        minetest.log("Day Night Ratio (Native) set to: " .. ratio .. " for player: " .. name)
+    end,
+})
+
+-- Native Testing for get_day_night_ratio
+minetest.register_chatcommand("native_object_get_day_night_ratio", {
+    description = "Native Test Get Day Night Ratio",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+        local ratio = player:native_get_day_night_ratio()
+        minetest.log("Day Night Ratio (Native) for player " .. name .. " is: " .. (ratio or "Not set"))
+    end,
+})
 
