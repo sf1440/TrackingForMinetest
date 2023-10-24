@@ -1207,6 +1207,36 @@ float ObjectRef::native_get_day_night_ratio() {
 }
 
 
+bool ObjectRef::hudSetHotbarItemcount(RemotePlayer *player, int count) {
+    if (!player)
+	return false;
+
+    return getServer()->hudSetHotbarItemcount(player, count);
+}
+
+int ObjectRef::hudGetHotbarItemcount(RemotePlayer *player) {
+    if (!player)
+	return -1;  // Using -1 to indicate failure, you can change it
+
+    return player->getHotbarItemcount();
+}
+
+
+bool ObjectRef::hudSetHotbarImage(RemotePlayer *player, const std::string &imageName) {
+    if (!player)
+	return false;
+
+    getServer()->hudSetHotbarImage(player, imageName);
+    return true;
+}
+
+
+std::string ObjectRef::hudGetHotbarImage(RemotePlayer *player) {
+    if (!player)
+	return "";  // Returning empty string for failure, you can change it
+
+    return player->getHotbarImage();
+}
 
 
 

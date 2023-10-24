@@ -2156,3 +2156,119 @@ minetest.register_chatcommand("native_object_get_day_night_ratio", {
     end,
 })
 
+-- Lua Testing for hud_set_hotbar_itemcount
+minetest.register_chatcommand("lua_object_hud_set_hotbar_itemcount", {
+    description = "Lua Test Set Hotbar Item Count",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        player:hud_set_hotbar_itemcount(tonumber(param) or 8) -- default to 8 if no input
+    end,
+})
+
+-- Native Testing for hud_set_hotbar_itemcount
+minetest.register_chatcommand("native_object_hud_set_hotbar_itemcount", {
+    description = "Native Test Set Hotbar Item Count",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        player:native_hud_set_hotbar_itemcount(tonumber(param) or 8) -- default to 8 if no input
+    end,
+})
+
+
+-- Lua Testing for hud_get_hotbar_itemcount
+minetest.register_chatcommand("lua_object_hud_get_hotbar_itemcount", {
+    description = "Lua Test Get Hotbar Item Count",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return "Player not found"
+        end
+
+        local count = player:hud_get_hotbar_itemcount()
+        return true, "Hotbar Item Count: " .. count
+    end,
+})
+
+-- Native Testing for hud_get_hotbar_itemcount
+minetest.register_chatcommand("native_object_hud_get_hotbar_itemcount", {
+    description = "Native Test Get Hotbar Item Count",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return "Player not found"
+        end
+
+        local count = player:native_hud_get_hotbar_itemcount()
+        return true, "Hotbar Item Count (Native): " .. count
+    end,
+})
+
+
+-- Lua Testing for hud_set_hotbar_image
+minetest.register_chatcommand("lua_object_hud_set_hotbar_image", {
+    description = "Lua Test Set Hotbar Image",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        player:hud_set_hotbar_image(param) -- set to the provided image name
+    end,
+})
+
+
+-- Native Testing for hud_set_hotbar_image
+minetest.register_chatcommand("native_object_hud_set_hotbar_image", {
+    description = "Native Test Set Hotbar Image",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            minetest.log("Player not found")
+            return
+        end
+
+        player:native_hud_set_hotbar_image(param) -- set to the provided image name
+    end,
+})
+
+-- Lua Testing for hud_get_hotbar_image
+minetest.register_chatcommand("lua_object_hud_get_hotbar_image", {
+    description = "Lua Test Get Hotbar Image",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return "Player not found"
+        end
+
+        local image = player:hud_get_hotbar_image()
+        return true, "Hotbar Image: " .. image
+    end,
+})
+
+
+
+--Native Testing for hud_get_hotbar_image
+minetest.register_chatcommand("native_object_hud_get_hotbar_image", {
+    description = "Native Test Get Hotbar Image",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return "Player not found"
+        end
+
+        local image = player:native_hud_get_hotbar_image()
+        return true, "Hotbar Image (Native): " .. image
+    end,
+})
