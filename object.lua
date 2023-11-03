@@ -2272,3 +2272,178 @@ minetest.register_chatcommand("native_object_hud_get_hotbar_image", {
         return true, "Hotbar Image (Native): " .. image
     end,
 })
+
+
+
+-- Lua Testing for hud_add
+minetest.register_chatcommand("lua_object_hud_add", {
+    description = "Test the hud_add function",
+    func = function(name)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return false, "Player not found"
+        end
+        
+        local hud_def = {
+            hud_elem_type = "image",
+            position = {x = 0.5, y = 0.5},
+            offset = {x = 0, y = 0},
+            text = "default_wood.png",
+            scale = {x = 2, y = 2},
+            alignment = {x = 0, y = 0},
+        }
+        local id = player:hud_add(hud_def)
+        
+        if id then
+            minetest.chat_send_player(name, "HUD element added with ID: " .. id)
+            return true
+        else
+            return false, "Failed to add HUD element"
+        end
+    end,
+})
+
+
+-- Lua Testing for hud_remove
+minetest.register_chatcommand("lua_object_hud_remove", {
+    description = "Test the hud_remove function",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return false, "Player not found"
+        end
+
+        local id = tonumber(param)
+        if not id then
+            return false, "Invalid HUD ID"
+        end
+        
+        local success = player:hud_remove(id)
+        return success, success and "HUD element removed." or "Failed to remove HUD element."
+    end,
+})
+
+
+-- Lua Testing for hud_change
+minetest.register_chatcommand("lua_object_hud_change", {
+    description = "Test the hud_change function",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return false, "Player not found"
+        end
+
+        local id, stat, data = parse_hud_change_parameters(param)
+        if not id then
+            return false, "Invalid parameters"
+        end
+        
+        player:hud_change(id, stat, data)
+        return true, "HUD element changed."
+    end,
+})
+
+
+-- Lua Testing for hud_change
+minetest.register_chatcommand("lua_object_hud_change", {
+    description = "Test the hud_change function",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return false, "Player not found"
+        end
+
+        local id, stat, data = parse_hud_change_parameters(param)
+        if not id then
+            return false, "Invalid parameters"
+        end
+        
+        player:hud_change(id, stat, data)
+        return true, "HUD element changed."
+    end,
+})
+
+
+
+-- Lua Testing for hud_set_flags
+minetest.register_chatcommand("lua_object_hud_set_flags", {
+    description = "Test the hud_set_flags function",
+    func = function(name)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return false, "Player not found"
+        end
+        
+        local flags = {
+            hotbar = false,
+            healthbar = false,
+            crosshair = true,
+            wielditem = true,
+            breathbar = false,
+            minimap = true,
+            minimap_radar = true,
+        }
+        
+        local success = player:hud_set_flags(flags)
+        return success, success and "HUD flags set." or "Failed to set HUD flags."
+    end,
+})
+
+
+
+-- Lua Testing for hud_get_flags
+minetest.register_chatcommand("lua_object_hud_get_flags", {
+    description = "Test the hud_get_flags function",
+    func = function(name)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return false, "Player not found"
+        end
+        
+        local flags = player:hud_get_flags()
+        if flags then
+            -- serialize or use the flags for assertion
+            return true, minetest.serialize(flags)
+        else
+            return false, "Failed to get HUD flags."
+        end
+    end,
+})
+
+
+-- Lua Testing for hud_set_hotbar_selected_image
+minetest.register_chatcommand("lua_object_set_hotbar_selected_image", {
+    description = "Test the hud_set_hotbar_selected_image function",
+    func = function(name, param)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return false, "Player not found"
+        end
+
+        if param and param ~= "" then
+            player:hud_set_hotbar_selected_image(param)
+            return true, "Hotbar selected image set to " .. param
+        else
+            return false, "Invalid image name"
+        end
+    end,
+})
+
+
+-- Lua Testing for hud_get_hotbar_selected_image
+minetest.register_chatcommand("lua_object_get_hotbar_selected_image", {
+    description = "Test the hud_get_hotbar_selected_image function",
+    func = function(name)
+        local player = minetest.get_player_by_name(name)
+        if not player then
+            return false, "Player not found"
+        end
+
+        local image_name = player:hud_get_hotbar_selected_image()
+        if image_name then
+            return true, "Hotbar selected image is: " .. image_name
+        else
+            return false, "Failed to get hotbar selected image"
+        end
+    end,
+})
